@@ -18,7 +18,8 @@ def create_app(config_name=None):
     Returns:
         Flask: La aplicación Flask configurada y lista para usar.
     """
-    # TODO: Crear la app Flask
+    ## Crear la app Flask
+    app = Flask(__name__)
     
     # Aplicar configuración según entorno
     # FIXME: Debe usar el método para leer la configuración
