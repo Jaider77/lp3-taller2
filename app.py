@@ -16,7 +16,8 @@ if __name__ == "__main__":
     # Obtener puerto del ambiente o usar 5000 por defecto
     port = int(os.getenv("PORT", 5000))
     
-    # TODO: Determinar si se debe usar modo debug
+   # Determinar si se debe usar modo debug
+    debug = os.getenv("DEBUG", "False").lower() in ["true", "1", "t"]
     
     # TODO: Ejecutar aplicación
 
