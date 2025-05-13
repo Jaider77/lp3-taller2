@@ -14,6 +14,4 @@ api = Api(
 )
 
 # ORM para interactuar con la base de datos
-# FIXME: el objeto está mal inicializado
-db = database()
-
+db = SQLAlchemy()
