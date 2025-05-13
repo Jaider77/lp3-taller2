@@ -65,8 +65,7 @@ def obtener_año_actual():
     Returns:
         int: Año actual
     """
-    # TODO: pendiente por implementar
-    return ""
+    return datetime.now().year
 
 def validar_año(año):
     """
