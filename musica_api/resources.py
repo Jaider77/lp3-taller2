@@ -156,8 +156,9 @@ class CancionAPI(Resource):
     @ns.marshal_with(cancion_model)
     def get(self, id):
         """Obtiene una canción por su ID"""
-        # TODO: pendiente de implementar
-        pass
+         # retorna la canción o error 404 si no existe
+        return Cancion.query.get_or_404(id)
+
     
     @ns.doc("Actualizar una canción")
     @ns.expect(cancion_base)
