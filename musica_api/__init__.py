@@ -6,6 +6,7 @@ from flask import Flask
 from .extensions import api, db
 from .resources import ns
 from .config import get_config
+import os
 
 def create_app(config_name=None):
     """
@@ -22,7 +23,7 @@ def create_app(config_name=None):
     app = Flask(__name__)
     
     # Aplicar configuración según entorno
-    config_obj = get_config(config_name or ns.getenv("FLASK_ENV", "default"))
+    config_obj = get_config(config_name or os.getenv("FLASK_ENV", "default"))
     app.config.from_object(config_obj)
     
     # Inicialización de extensiones
