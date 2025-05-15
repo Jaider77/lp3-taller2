@@ -72,8 +72,9 @@ class UsuarioAPI(Resource):
     @ns.marshal_with(usuario_model)
     def get(self, id):
         """Obtiene un usuario por su ID"""
-        # TODO: pendiente de implementar
-        pass
+        # retorna el usuario o error 404 si no existe
+        return Usuario.query.get_or_404(id)
+
     
     @ns.doc("Actualizar un usuario")
     @ns.expect(usuario_base)
