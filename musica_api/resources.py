@@ -228,8 +228,8 @@ class FavoritoListAPI(Resource):
     @ns.marshal_list_with(favorito_model)
     def get(self):
         """Obtiene todos los registros de favoritos"""
-        # TODO: pendiente de implementar
-        pass
+        # retorna todos los favoritos de la base de datos
+        return Favorito.query.all(), 200
     
     @ns.doc("Marcar una canción como favorita")
     @ns.expect(favorito_input)
