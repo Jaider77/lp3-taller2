@@ -2,6 +2,7 @@
 Módulo de recursos de la API.
 Define los endpoints, controladores y la lógica de negocio de la API.
 """
+import logging
 from flask import request
 from flask_restx import Resource, Namespace
 from .api_models import (
@@ -28,27 +29,21 @@ class Ping(Resource):
 
 
 # Recursos para Usuarios
-@ns.route("/usuarios")
+# ...existing code...
+
 class UsuarioListAPI(Resource):
-    @ns.doc("Listar todos los usuarios")
-    @ns.response(200, "Lista de usuarios obtenida con éxito")
-    @ns.marshal_list_with(usuario_model)
-    def get(self):
-        """Obtiene todos los usuarios registrados"""
-         #retorna todos los usuarios de la base de datos
-        return Usuario.query.all(), 200
-    
     @ns.doc("Crear un nuevo usuario")
     @ns.expect(usuario_base)
     @ns.response(201, "Usuario creado con éxito")
     @ns.response(400, "Datos inválidos o correo ya existe")
     @ns.marshal_with(usuario_model)
     def post(self):
-        """Crea un nuevo usuario"""
         data = request.json
-        
+        logging.info(f"Intentando crear usuario con datos: {data}")  # <-- Logging de intento
+
         # Verificar si el correo ya existe
         if Usuario.query.filter_by(correo=data["correo"]).first():
+            logging.warning(f"Intento de registro con correo ya existente: {data['correo']}")  # <-- Logging de advertencia
             ns.abort(400, "El correo electrónico ya está registrado")
         
         usuario = Usuario(
@@ -59,11 +54,14 @@ class UsuarioListAPI(Resource):
         try:
             db.session.add(usuario)
             db.session.commit()
+            logging.info(f"Usuario creado exitosamente: {usuario.id}")  # <-- Logging de éxito
             return usuario, 201
         except Exception as e:
             db.session.rollback()
+            logging.error(f"Error al crear usuario: {str(e)}")  # <-- Logging de error
             ns.abort(400, f"Error al crear usuario: {str(e)}")
 
+# ...existing code...
 @ns.route("/usuarios/<int:id>")
 @ns.param("id", "Identificador único del usuario")
 @ns.response(404, "Usuario no encontrado")
