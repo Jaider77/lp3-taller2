@@ -4,6 +4,7 @@ Script principal para ejecutar la aplicación Flask.
 import os
 from musica_api import create_app
 from dotenv import load_dotenv
+import logging
 
 # Cargar variables de entorno desde archivo .env si existe
 load_dotenv()
@@ -22,3 +23,13 @@ if __name__ == "__main__":
     # Ejecutar aplicación
     app.run(host="0.0.0.0", port=port, debug=debug)
     pass
+
+# Configuración básica de logging
+logging.basicConfig(
+    level=logging.INFO,  # Cambia a DEBUG para más detalle
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler("api.log"),  # Guarda los logs en un archivo
+        logging.StreamHandler()          # También muestra los logs en consola
+    ]
+)
