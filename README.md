@@ -1,6 +1,10 @@
 # Datos del estudiante
 Nombre: Jaider Francisco Asprilla Reyes
 CC:1077631902
+### Registro (logging)
+
+La API implementa un sistema de registro que guarda eventos importantes y errores en el archivo `api.log`. Esto permite monitorear el uso y detectar problemas rápidamente.  
+Cada petición y respuesta HTTP queda registrada, incluyendo los datos enviados y recibidos.
 
 # API de Música
 
