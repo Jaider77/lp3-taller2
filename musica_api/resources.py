@@ -29,8 +29,8 @@ class Ping(Resource):
 
 
 # Recursos para Usuarios
-# ...existing code...
 
+@ns.route("/usuarios")
 class UsuarioListAPI(Resource):
     @ns.doc("Crear un nuevo usuario")
     @ns.expect(usuario_base)
@@ -60,6 +60,8 @@ class UsuarioListAPI(Resource):
             db.session.rollback()
             logging.error(f"Error al crear usuario: {str(e)}")  # <-- Logging de error
             ns.abort(400, f"Error al crear usuario: {str(e)}")
+            
+        return Usuario.query.all(), 200
 
 # ...existing code...
 @ns.route("/usuarios/<int:id>")

@@ -5,6 +5,12 @@ Define los esquemas utilizados por Flask-RESTX para la documentación y validaci
 from flask_restx import fields
 from .extensions import api
 
+#modelo para mostrar los usurios
+usuario_model = api.model('Usuario', {
+    'id': fields.Integer,
+    'nombre': fields.String,
+    'correo': fields.String,
+})
 # Modelo para respuestas simples
 mensaje_model = api.model("Mensaje", {
     "mensaje": fields.String(description="Mensaje informativo")

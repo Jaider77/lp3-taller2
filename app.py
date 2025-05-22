@@ -6,6 +6,7 @@ from musica_api import create_app
 from dotenv import load_dotenv
 import logging
 from flask import request
+from flask_cors import CORS 
 
 
 # Configuración básica de logging
@@ -24,11 +25,16 @@ load_dotenv()
 # Crear la aplicación
 app = create_app()
 
+# Habilitar CORS después de crear la app
+CORS(app)
+
+
 
 # Middleware para registrar cada petición y respuesta
 @app.before_request
 def log_request_info():
     logging.info(f"Petición: {request.method} {request.path} - Datos: {request.get_json(silent=True)}")
+
 @app.after_request
 def log_response_info(response):
     logging.info(f"Respuesta: {response.status} - {response.get_data(as_text=True)[:200]}")

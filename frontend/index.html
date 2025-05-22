@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>JF-M</title>
+    <style>
+        title { color: #510378; }
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        h1 { color: #510378; }
+        .section { margin-bottom: 2em; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; }
+        th { background: #f4f4f4; }
+        button { margin-bottom: 1em; color: #06d1c7;}
+    </style>
+</head>
+<body>
+    <h1>JF MUSIC</h1>
+
+    <div class="section">
+        <h2>Usuarios</h2>
+        <button onclick="cargarUsuarios()">Cargar Usuarios</button>
+        <table id="usuarios">
+            <thead>
+                <tr><th>ID</th><th>Nombre</th><th>Correo</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Canciones</h2>
+        <button onclick="cargarCanciones()">Cargar Canciones</button>
+        <table id="canciones">
+            <thead>
+                <tr><th>ID</th><th>Título</th><th>Artista</th><th>Álbum</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        const API_URL = "http://127.0.0.1:5000/api";
+
+        function cargarUsuarios() {
+            fetch(`${API_URL}/usuarios`)
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.querySelector("#usuarios tbody");
+                    tbody.innerHTML = "";
+                    data.forEach(u => {
+                        tbody.innerHTML += `<tr>
+                            <td>${u.id}</td>
+                            <td>${u.nombre}</td>
+                            <td>${u.correo}</td>
+                        </tr>`;
+                    });
+                });
+        }
+
+        function cargarCanciones() {
+            fetch(`${API_URL}/canciones`)
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.querySelector("#canciones tbody");
+                    tbody.innerHTML = "";
+                    data.forEach(c => {
+                        tbody.innerHTML += `<tr>
+                            <td>${c.id}</td>
+                            <td>${c.titulo}</td>
+                            <td>${c.artista}</td>
+                            <td>${c.album || ""}</td>
+                        </tr>`;
+                    });
+                });
+        }
+    </script>
+</body>
+</html>
