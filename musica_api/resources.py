@@ -32,6 +32,10 @@ class Ping(Resource):
 
 @ns.route("/usuarios")
 class UsuarioListAPI(Resource):
+    @ns.marshal_list_with(usuario_model)
+    def get(self):
+        """Devuelve la lista de todos los usuarios"""
+        return Usuario.query.all(), 200
     @ns.doc("Crear un nuevo usuario")
     @ns.expect(usuario_base)
     @ns.response(201, "Usuario creado con éxito")
@@ -60,8 +64,6 @@ class UsuarioListAPI(Resource):
             db.session.rollback()
             logging.error(f"Error al crear usuario: {str(e)}")  # <-- Logging de error
             ns.abort(400, f"Error al crear usuario: {str(e)}")
-            
-        return Usuario.query.all(), 200
 
 # ...existing code...
 @ns.route("/usuarios/<int:id>")
