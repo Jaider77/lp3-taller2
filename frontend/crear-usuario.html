@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Usuario - JF MUSIC</title>
+    <link rel="icon" href="imagenes/logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f8f9fc;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .registro-container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 2em 2.5em;
+            max-width: 350px;
+            width: 100%;
+        }
+        h1 {
+            color: #6a1b9a;
+            text-align: center;
+            margin-bottom: 1em;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+        }
+        input {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background-color: #6a1b9a;
+            color: white;
+            border: none;
+            padding: 10px 0;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #4a148c;
+        }
+        #registroMensaje {
+            margin-top: 1em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="registro-container">
+        <img src="imagenes/logo.png" alt="Logo JF MUSIC" style="width:70px; display:block; margin:0 auto 1em auto;">
+        <h1>Registro de Usuario</h1>
+        <form id="registroForm">
+            <input type="text" id="nombre" placeholder="Nombre" required>
+            <input type="email" id="correo" placeholder="Correo" required>
+            <button type="submit">Registrarse</button>
+        </form>
+        <div id="registroMensaje"></div>
+        <div style="text-align:center; margin-top:1em;">
+            <a href="index.html" style="color:#6a1b9a; text-decoration:underline;">Volver al inicio</a>
+        </div>
+    </div>
+    <script>
+        const API_URL = "http://127.0.0.1:5000/api";
+        document.getElementById('registroForm').onsubmit = function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const correo = document.getElementById('correo').value;
+            fetch(`${API_URL}/usuarios`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({nombre, correo})
+            })
+            .then(res => res.ok ? res.json() : res.json().then(err => Promise.reject(err)))
+            .then(data => {
+                document.getElementById('registroMensaje').innerText = "¡Registro exitoso!";
+                document.getElementById('registroForm').reset();
+            })
+            .catch(err => {
+                document.getElementById('registroMensaje').innerText = err.message || "Error al registrar.";
+            });
+        };
+    </script>
+</body>
+</html>

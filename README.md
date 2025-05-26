@@ -23,6 +23,7 @@ El proyecto incluye una interfaz de documentación interactiva generada automát
 
 ```
 lp3-taller2
+
 ├──  README.md            # Este archivo, documentación completa del proyecto
 ├──  .env                 # Variables de entorno (desarrollo, pruebas, producción)
 ├──  .gitignore           # Archivos y directorios a ignorar por Git
