@@ -75,25 +75,29 @@
         </div>
     </div>
     <script>
-        const API_URL = "http://127.0.0.1:5000/api";
-        document.getElementById('registroForm').onsubmit = function(e) {
-            e.preventDefault();
-            const nombre = document.getElementById('nombre').value;
-            const correo = document.getElementById('correo').value;
-            fetch(`${API_URL}/usuarios`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({nombre, correo})
-            })
-            .then(res => res.ok ? res.json() : res.json().then(err => Promise.reject(err)))
-            .then(data => {
-                document.getElementById('registroMensaje').innerText = "¡Registro exitoso!";
-                document.getElementById('registroForm').reset();
-            })
-            .catch(err => {
-                document.getElementById('registroMensaje').innerText = err.message || "Error al registrar.";
-            });
-        };
+    const API_URL = "http://127.0.0.1:5000/api";
+    document.getElementById('registroForm').onsubmit = function(e) {
+        e.preventDefault();
+        const nombre = document.getElementById('nombre').value;
+        const correo = document.getElementById('correo').value;
+        fetch(`${API_URL}/usuarios`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({nombre, correo})
+        })
+        .then(res => res.ok ? res.json() : res.json().then(err => Promise.reject(err)))
+        .then(data => {
+            document.getElementById('registroMensaje').innerText = "¡Registro exitoso!";
+            localStorage.setItem('usuarioJFMusic', JSON.stringify({nombre, correo}));
+            document.getElementById('registroForm').reset();
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 1000);
+        })
+        .catch(err => {
+            document.getElementById('registroMensaje').innerText = err.message || "Error al registrar.";
+        });
+    }
     </script>
 </body>
 </html>
