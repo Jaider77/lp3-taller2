@@ -92,8 +92,13 @@
     </div>
 
     <script>
+        
         const API_URL = "http://127.0.0.1:5000/api";
-
+        const usuario = localStorage.getItem('usuarioJFMusic');
+        if (!usuario) {
+             window.location.href = "crear-usuario.html";
+}
+     
         function cargarUsuarios() {
             fetch(`${API_URL}/usuarios`)
                 .then(res => res.json())
