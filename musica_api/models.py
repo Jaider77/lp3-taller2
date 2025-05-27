@@ -13,6 +13,15 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     correo = db.Column(db.String(100), unique=True, nullable=False)
     fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # este campo es para definir al adnmin o cliente
+class Usuario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    correo = db.Column(db.String(120), unique=True, nullable=False)
+    rol = db.Column(db.String(20), default="cliente")  # "admin" o "cliente"
+
+    
     
     # Relación con favoritos
     favoritos = db.relationship("Favorito", back_populates="usuario", cascade="all, delete-orphan")
