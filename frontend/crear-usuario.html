@@ -149,7 +149,7 @@
         .then(usuarios => {
           const usuario = usuarios.find(u => u.correo === correo);
           if (usuario) {
-            localStorage.setItem('usuarioJFMusic', JSON.stringify(usuario));
+           localStorage.setItem('usuarioJFMusic', JSON.stringify(usuario)); // <-- CORRECTO
             document.getElementById('loginMensaje').innerText = "¡Ingreso exitoso!";
             setTimeout(() => {
               window.location.href = "index.html";
@@ -175,7 +175,7 @@
       .then(res => res.ok ? res.json() : res.json().then(err => Promise.reject(err)))
       .then(data => {
         document.getElementById('registroMensaje').innerText = "¡Registro exitoso!";
-        localStorage.setItem('usuarioJFMusic', JSON.stringify({nombre, correo}));
+        localStorage.setItem('usuarioJFMusic', JSON.stringify(data));
         document.getElementById('registroForm').reset();
         setTimeout(() => {
           window.location.href = "index.html";

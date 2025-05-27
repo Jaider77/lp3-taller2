@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Canciones - JF MUSIC</title>
+  <link rel="icon" href="imagenes/logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1b1b2f);
+      background-size: 400% 400%;
+      animation: moverFondo 15s ease infinite;
+      color: #fff;
+      padding: 3em 1em;
+      min-height: 100vh;
+    }
+    @keyframes moverFondo {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 2em;
+      color: #f7b2ff;
+    }
+    .section {
+      background: rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 2em 1em;
+      max-width: 700px;
+      margin: 0 auto 2em auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 1em;
+      color: white;
+    }
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    th {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #e1bfff;
+    }
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    button {
+      background: linear-gradient(90deg, #a900ff, #ff0099);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+      display: block;
+      margin: 0 auto 1em auto;
+    }
+    button:hover {
+      opacity: 0.85;
+    }
+    .logout {
+      text-align: right;
+      margin-bottom: 1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="logout">
+    <button onclick="logout()">Cerrar sesión</button>
+  </div>
+  <h1>🎶 Canciones Disponibles 🎶</h1>
+  <div class="section">
+    <button onclick="cargarCanciones()">Cargar Canciones</button>
+    <table id="canciones">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Artista</th>
+          <th>Álbum</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script>
+    const API_URL = "http://127.0.0.1:5000/api";
+    // Proteger acceso: solo usuarios registrados pueden ver la página
+    const usuario = localStorage.getItem('usuarioJFMusic');
+    if (!usuario) {
+      window.location.href = "crear-usuario.html";
+    }
+    function cargarCanciones() {
+      fetch(`${API_URL}/canciones`)
+        .then(res => res.json())
+        .then(data => {
+          const tbody = document.querySelector("#canciones tbody");
+          tbody.innerHTML = "";
+          data.forEach(c => {
+            tbody.innerHTML += `<tr>
+              <td>${c.id}</td>
+              <td>${c.titulo}</td>
+              <td>${c.artista}</td>
+              <td>${c.album || ""}</td>
+            </tr>`;
+          });
+        });
+    }
+    function logout() {
+      localStorage.removeItem('usuarioJFMusic');
+      window.location.href = "crear-usuario.html";
+    }
+    // Opcional: cargar canciones automáticamente al abrir la página
+    cargarCanciones();
+  </script>
+</body>
+</html>
